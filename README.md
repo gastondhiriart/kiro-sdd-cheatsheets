@@ -16,4 +16,4 @@
 - herramientas/integracion-mcp.md
 
 ## 📘 Guías
-- guias/modelos-segun-uso.md
+- guias/modelos-ia-segun-uso.md

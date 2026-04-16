@@ -1,4 +1,4 @@
-# 🧩 Kiro Modelos según uso Cheat Sheet PRO
+# 🧩 Kiro Modelos IA según uso Cheat Sheet PRO
 
 ## 🎯 Objetivo
 
