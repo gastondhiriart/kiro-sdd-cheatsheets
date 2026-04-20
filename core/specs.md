@@ -4,10 +4,10 @@
 
 Definir cambios en el sistema de forma:
 
-* clara
-* estructurada
-* verificable
-* ejecutable por Kiro
+- clara
+- estructurada
+- verificable
+- ejecutable por Kiro
 
 👉 Specs = **unidad de trabajo controlada**
 
@@ -15,17 +15,18 @@ Definir cambios en el sistema de forma:
 
 # 🧠 ¿Qué es un Spec?
 
-Un **Spec** es un conjunto de 3 documentos:
+Un **Spec** es un conjunto de documentos que separa:
 
-```bash id="p1c9xk"
+```bash
 requirements.md → qué se necesita
-design.md       → cómo se implementa
-tasks.md        → cómo se ejecuta
+business-spec.md → comportamiento y criterios de negocio
+architecture-spec.md o design.md → cómo se implementa
+tasks.md → cómo se ejecuta
+bugfix.md o bugfix-spec.md → cómo se corrige un fallo puntual
 ```
 
-👉 Representa el ciclo completo de desarrollo
-
-
+👉 No siempre vas a usar todos los nombres o todos los archivos.
+Lo importante es separar **intención**, **diseño** y **ejecución**.
 
 ---
 
@@ -34,104 +35,164 @@ tasks.md        → cómo se ejecuta
 Spec = mini proyecto aislado
 
 👉 define:
-
-* intención
-* diseño
-* ejecución
+- intención
+- diseño
+- ejecución
+- supuestos y dudas si hace falta
 
 ---
 
-# ⚙️ Flujo de trabajo (clave)
+# ⚙️ Flujo base
 
-## 1. requirements.md (Fase 1)
+## 1. Requirements / Business Spec
 
-* escrito en EARS
-* define comportamiento
-* incluye criterios de aceptación
+- escrito en lenguaje claro
+- idealmente usando EARS
+- define comportamiento
+- incluye criterios de aceptación
 
 👉 fuente de verdad
 
 ---
 
-## 2. design.md (Fase 2)
+## 2. Design / Architecture Spec
 
-* arquitectura
-* endpoints
-* modelos
-* decisiones técnicas
+- arquitectura
+- endpoints
+- contratos
+- decisiones técnicas
+- restricciones
 
 👉 blueprint
 
 ---
 
-## 3. tasks.md (Fase 3)
+## 3. Tasks / Implementation Plan
 
-* tareas pequeñas
-* ejecutables
-* checkboxes
+- tareas pequeñas
+- ejecutables
+- ordenadas
+- con dependencias visibles
 
-👉 ejecución automática
-
----
-
-## 🚀 Motor de ejecución
-
-En `tasks.md`:
-
-```md id="k2d9lw"
-- [ ] Crear endpoint
-- [ ] Implementar servicio
-```
-
-👉 Kiro:
-
-* ejecuta tareas
-* edita código real
-* valida cambios
-* marca como DONE
-
-
+👉 ejecución automática o semi-asistida
 
 ---
 
 # 🧠 Insight CLAVE
 
-Spec Mode:
+Spec Mode separa:
 
-👉 separa pensamiento de ejecución
+- pensar
+- diseñar
+- ejecutar
 
-* primero pensás (requirements + design)
-* después ejecutás (tasks)
+👉 primero se aclara el problema
+👉 después se diseña
+👉 recién después se toca código
 
-👉 elimina alucinaciones
+Esto baja muchísimo las alucinaciones y el retrabajo.
 
+---
 
+# 🧭 Dos formas válidas de arrancar
+
+## 🟢 Behavior-first / Requirements-first
+
+Primero definís:
+- qué debe pasar
+- qué criterios de aceptación existen
+- qué reglas de negocio importan
+
+Después diseñás la solución.
+
+### Conviene cuando:
+- el comportamiento está claro
+- producto manda más que la técnica
+- todavía no está fijada la solución
+
+---
+
+## 🔵 Design-first / Architecture-first
+
+Primero definís:
+- restricciones técnicas
+- contratos externos
+- arquitectura o integración obligatoria
+
+Después aterrizás requisitos y tasks.
+
+### Conviene cuando:
+- la técnica ya viene condicionada
+- hay APIs externas o contratos fijos
+- el issue está dominado por limitaciones técnicas
+
+---
+
+## 🧠 Regla práctica
+
+- si entendés mejor **qué debería hacer** → behavior-first
+- si entendés mejor **cómo necesariamente debe integrarse** → design-first
 
 ---
 
 # 🧩 Tipos de Specs
 
----
+## 🟢 1. Feature Spec
 
-# 🟢 1. Feature Spec
+### Cuándo usarlo
+- nueva funcionalidad
+- nuevos endpoints
+- nuevos flujos o pantallas
 
-## 📌 Cuándo usarlo
-
-* nueva funcionalidad
-* nuevos endpoints
-* nuevas pantallas
-
-## 🎯 Objetivo
-
+### Foco
 Construir algo nuevo
 
+### Mapeo útil
+- `requirements.md` o `business-spec.md`
+- `design.md` o `architecture-spec.md`
+- `tasks.md`
+
 ---
 
-## 📄 Ejemplo
+## 🔴 2. Bugfix Spec
 
-### requirements.md
+### Cuándo usarlo
+- bugs
+- fallos en producción
+- regresiones
 
-```md id="p0x3qe"
+### Foco
+Corregir sin rediseñar lo que ya funciona
+
+### Mapeo útil
+- `bugfix.md` o `bugfix-spec.md`
+- `design.md` si hace falta
+- `tasks.md`
+
+---
+
+## 🔵 3. Correctness Spec
+
+### Cuándo usarlo
+- inconsistencia entre módulos
+- validaciones duplicadas o divergentes
+- refactor sin cambio funcional visible
+
+### Foco
+Alinear y estabilizar el sistema
+
+### Mapeo útil
+- `requirements.md` o `business-spec.md`
+- `architecture-spec.md` si hay impacto técnico
+- `tasks.md`
+
+---
+
+# 🧪 Ejemplos rápidos
+
+## Feature
+
+```md
 ## Feature: Crear orden
 
 Cuando el usuario hace click en "Comprar", el sistema debe crear una orden
@@ -141,48 +202,9 @@ Si el carrito está vacío, el sistema debe mostrar error
 
 ---
 
-### design.md
+## Bugfix
 
-```md id="s9f2ka"
-## Enfoque
-
-- Endpoint POST /orders
-- Servicio OrderService
-```
-
----
-
-### tasks.md
-
-```md id="u3l8qv"
-- [ ] Crear endpoint
-- [ ] Implementar servicio
-- [ ] Tests
-```
-
----
-
-# 🔴 2. Bugfix Spec
-
-## 📌 Cuándo usarlo
-
-* bugs
-* errores en producción
-* comportamiento incorrecto
-
-## 🎯 Objetivo
-
-Corregir sin romper nada más
-
-👉 Kiro entra en modo conservador
-
----
-
-## 📄 Ejemplo
-
-### requirements.md
-
-```md id="b4k7nd"
+```md
 ## Bug: Login incorrecto
 
 Cuando el usuario ingresa credenciales inválidas, el sistema debe rechazar el login
@@ -190,48 +212,9 @@ Cuando el usuario ingresa credenciales inválidas, el sistema debe rechazar el l
 
 ---
 
-### design.md
+## Correctness
 
-```md id="c8v2qp"
-## Problema
-
-- comparación incorrecta de password
-
-## Solución
-
-- usar bcrypt.compare
-```
-
----
-
-### tasks.md
-
-```md id="n2x9wm"
-- [ ] Corregir validación
-- [ ] Agregar tests
-```
-
----
-
-# 🔵 3. Correctness Spec
-
-## 📌 Cuándo usarlo
-
-* código inconsistente
-* deuda técnica
-* refactor sin cambiar comportamiento
-
-## 🎯 Objetivo
-
-Alinear y estabilizar el sistema
-
----
-
-## 📄 Ejemplo
-
-### requirements.md
-
-```md id="e7r4za"
+```md
 ## Correctness: Validación email
 
 Cuando el usuario envía un email, el sistema debe validar formato RFC
@@ -239,105 +222,65 @@ Cuando el usuario envía un email, el sistema debe validar formato RFC
 
 ---
 
-### design.md
+# ⚠️ Conflictos cruzados y dependencias
 
-```md id="h9m1st"
-## Problema
+Esto no siempre se menciona, pero en specs medianamente complejas es clave.
 
-- validaciones inconsistentes
+Hay que dejar visibles:
+- dependencias entre tasks
+- impactos en contratos compartidos
+- decisiones globales que afectan a más de un cambio
+- warnings de orden de despliegue o migración
 
-## Solución
-
-- centralizar validación
-```
-
----
-
-### tasks.md
-
-```md id="j3k8qp"
-- [ ] Crear util
-- [ ] Reemplazar validaciones
-```
+👉 Si una decisión afecta varios tasks, no la entierres en uno solo.
+Subila a una sección o archivo de advertencias común.
 
 ---
 
-# 🧠 Resumen rápido
+# 🧠 Orden recomendado de lectura
 
-| Tipo        | Cuándo usar         | Foco            |
-| ----------- | ------------------- | --------------- |
-| Feature     | nueva funcionalidad | construir       |
-| Bugfix      | algo roto           | corregir        |
-| Correctness | inconsistencia      | alinear/mejorar |
+En specs complejas conviene este orden:
 
----
+1. contexto / init
+2. análisis inicial
+3. spec principal (business o architecture)
+4. rationale del enfoque
+5. open questions / assumptions
+6. implementation plan / tasks
 
-# 🎯 Regla de oro
-
-* “agregar algo” → Feature
-* “esto está mal” → Bugfix
-* “esto no me gusta / inconsistente” → Correctness
+👉 esto sirve tanto para humanos como para agentes.
 
 ---
 
-# 🔥 Estrategias de entrada
-
-## 🟢 Requirements-first (Top-down)
-
-* empezás por negocio
-* Kiro baja a código
-
-👉 ideal cuando no sabés cómo implementarlo
-
----
-
-## 🔵 Design-first (Bottom-up)
-
-* empezás por arquitectura
-* Kiro genera requirements y tasks
-
-👉 ideal cuando ya sabés la solución técnica
-
-
-
----
-
-# ⚠️ Anti-patrones
+# 🚨 Anti-patrones
 
 ## ❌ Saltarse requirements
-
 👉 código sin intención clara
 
----
-
 ## ❌ Saltarse design
-
 👉 arquitectura improvisada
 
----
-
 ## ❌ Tasks demasiado grandes
-
 👉 ejecución caótica
 
----
+## ❌ Mezclar negocio y técnica sin separar capas
+👉 specs difíciles de leer y revisar
 
-## ❌ Mezclar tipos de spec
-
-👉 comportamiento impredecible
+## ❌ No dejar visibles conflictos entre tareas
+👉 cada task parece correcta sola, pero el conjunto falla
 
 ---
 
 # 🧠 Relación con otras piezas
 
-| Concepto        | Rol                 |
-| --------------- | ------------------- |
-| **Steering**    | reglas globales     |
-| **Specs**       | cambios             |
-| **Skills**      | workflows           |
-| **.kiroignore** | límites de contexto |
+| Concepto | Rol |
+|----------|-----|
+| Steering | reglas globales |
+| Specs | cambios |
+| Skills | workflows |
+| .kiroignore | límites de contexto |
 
-👉 Specs = ejecución controlada sobre reglas
+👉 Specs = ejecución controlada sobre reglas conocidas
 
 ---
 
@@ -345,22 +288,21 @@ Cuando el usuario envía un email, el sistema debe validar formato RFC
 
 Un buen spec:
 
-* empieza con EARS claro
-* tiene diseño simple
-* divide tareas pequeñas
+- empieza con comportamiento o restricciones claras
+- separa negocio de arquitectura
+- divide tareas pequeñas
+- deja visibles dependencias y dudas
 
-👉 eso hace que Kiro “no piense de más”
+👉 eso hace que Kiro no tenga que “adivinar el proyecto” en cada paso.
 
 ---
 
-# 🚀 Resumen final
+# 🎯 Resumen final
 
-* Spec = unidad de desarrollo completa
-* separa pensar vs ejecutar
-* reduce errores
-* mejora consistencia
+- Spec = unidad de desarrollo completa
+- separa pensar, diseñar y ejecutar
+- puede arrancar behavior-first o design-first
+- necesita visibilidad sobre conflictos y dependencias
 
 👉 sin specs → caos
 👉 con specs → ingeniería
-
----

@@ -1,29 +1,27 @@
-# 🧵 Kiro Multithread Context Cheat Sheet PRO
-
-(Subagentes, Tangents y Checkpoints)
+# 🧩 Kiro Multihilo de Contexto Cheat Sheet PRO
 
 ## 🎯 Objetivo
 
 Evitar que el contexto:
 
-* se ensucie
-* se vuelva inmanejable
-* degrade la calidad de la IA
+- se ensucie
+- se vuelva inmanejable
+- degrade la calidad de la IA
 
 👉 Multihilo = **orden mental + aislamiento de contexto**
 
 ---
 
-# 🧠 ¿Qué problema resuelve?
+# 🧠 Qué problema resuelve
 
 En un chat largo:
 
-* Kiro olvida cosas
-* mezcla conceptos
-* empieza a alucinar
-* consume muchos tokens
+- Kiro olvida cosas
+- mezcla conceptos
+- alucina más
+- consume más contexto del necesario
 
-👉 esto se llama **context drift**
+👉 esto es **context drift**
 
 ---
 
@@ -31,207 +29,135 @@ En un chat largo:
 
 Kiro usa 3 mecanismos:
 
-* Tangents
-* Checkpoints
-* Subagentes
-
-
+- Tangents
+- Checkpoints
+- Subagentes
 
 ---
 
-# 🟡 1. Tangents (Sub-chats aislados)
+# 🟡 1. Tangents
 
-## 🧠 Qué son
+## Qué son
 
-Chats secundarios temporales
+Chats secundarios temporales.
 
-👉 para discutir algo sin ensuciar el flujo principal
+👉 sirven para discutir algo sin ensuciar el flujo principal
 
----
+## Cuándo usarlos
 
-## 🧪 Ejemplo
+- dudas teóricas
+- exploraciones rápidas
+- temas laterales
 
-Estás diseñando arquitectura y pensás:
+## Ejemplo
 
-> “¿cómo funciona Promise.all?”
-
-👉 abrís un tangent
-👉 resolvés eso
-👉 lo cerrás
-
-👉 el chat principal queda limpio
+Estás diseñando una arquitectura y necesitás entender Promise.all.
+Abrís un tangent, resolvés eso, y volvés al hilo principal limpio.
 
 ---
 
-## 🎯 Cuándo usarlos
+# 🔵 2. Checkpoints
 
-* dudas teóricas
-* exploraciones
-* cosas no directamente relacionadas
+## Qué son
 
----
+Snapshots del estado mental y de la ejecución.
 
-## ⚠️ Error común
+👉 permiten volver atrás si una rama salió mal
 
-No usarlos y mezclar todo en el mismo chat
+## Cuándo usarlos
 
-👉 termina en caos
+- antes de cambios grandes
+- refactors delicados
+- tareas riesgosas
 
----
+## Insight
 
-# 🔵 2. Checkpoints (puntos de rollback)
-
-## 🧠 Qué son
-
-Snapshots del estado mental y del código
-
-👉 permiten volver atrás
+Es como un rewind del pensamiento + ejecución del agente.
 
 ---
 
-## 🧪 Ejemplo
+# 🟣 3. Subagentes
 
-Kiro rompe 5 archivos:
+## Qué son
 
-👉 vas al checkpoint anterior
-👉 rewind
-👉 todo vuelve atrás
-
----
-
-## 🎯 Cuándo usarlos
-
-* antes de cambios grandes
-* refactors
-* ejecuciones riesgosas
-
----
-
-## 🧠 Insight
-
-Es como:
-
-👉 Git, pero del pensamiento + ejecución del agente
-
----
-
-# 🟣 3. Subagentes (ejecución paralela)
-
-## 🧠 Qué son
-
-Instancias paralelas de Kiro que trabajan en background
+Instancias paralelas de Kiro que trabajan en background.
 
 👉 cada una con su propio contexto
+👉 no las invocás manualmente como una acción explícita
+👉 suelen aparecer sobre todo al ejecutar tasks complejas
+
+## Cuándo aparecen normalmente
+
+- al correr `tasks.md`
+- cuando Kiro divide trabajo en varias unidades
+- cuando necesita paralelizar sin mezclar contexto
+
+## Qué ganás
+
+- paralelismo
+- menos contaminación entre tareas
+- mejor consistencia
 
 ---
 
-## 🧪 Ejemplo
+# 🧠 Insight CLAVE
 
-En `tasks.md`:
-
-```md id="k2sub"
-- [ ] Crear endpoint
-- [ ] Implementar servicio
-- [ ] Tests
-```
-
-👉 Kiro puede:
-
-* ejecutar tareas en paralelo
-* dividir trabajo
-* no mezclar contextos
-
----
-
-## 🎯 Cuándo se usan
-
-* ejecución de tasks
-* procesos complejos
-* múltiples archivos
-
----
-
-## 🧠 Insight clave
-
-Cada subagente:
-
-👉 tiene su propio “cerebro aislado”
-
-👉 no contamina el resto
-
----
-
-# 🧠 Insight CLAVE (el más importante)
-
-Estos 3 mecanismos atacan el mismo problema:
+Los 3 mecanismos atacan el mismo problema:
 
 👉 **la contaminación de contexto**
 
 ---
 
-## 🎭 Comparación mental
+## Comparación mental
 
-| Herramienta | Qué hace             |
-| ----------- | -------------------- |
-| Tangent     | separa ideas         |
-| Checkpoint  | permite volver atrás |
-| Subagente   | ejecuta en paralelo  |
+| Herramienta | Qué hace |
+|------------|---------|
+| Tangent | separa ideas |
+| Checkpoint | permite volver atrás |
+| Subagente | ejecuta en paralelo |
 
 ---
 
 # 🔥 Cuándo usar cada uno
 
 ## Tangents
-
-* dudas
-* exploración
-* teoría
-
----
+- dudas
+- exploración
+- teoría
 
 ## Checkpoints
-
-* antes de cambios grandes
-* cuando algo puede salir mal
-
----
+- antes de cambios grandes
+- cuando algo puede salir mal
 
 ## Subagentes
-
-* ejecución de tareas
-* procesamiento paralelo
+- ejecución de tareas
+- trabajo en paralelo
+- contexts aislados por task
 
 ---
 
 # ⚠️ Anti-patrones
 
 ## ❌ Todo en un solo chat
-
 👉 caos + alucinaciones
 
----
-
 ## ❌ No usar checkpoints
+👉 no podés volver atrás fácilmente
 
-👉 no podés volver atrás
-
----
-
-## ❌ Ejecutar todo secuencial
-
-👉 perdés potencia
+## ❌ Pensar que los subagentes se invocan manualmente
+👉 normalmente son una mecánica interna del sistema
 
 ---
 
 # 🧠 Relación con el sistema
 
-| Pieza     | Rol                 |
-| --------- | ------------------- |
-| Steering  | reglas              |
-| Specs     | ejecución           |
-| Skills    | comportamiento      |
-| Hooks     | control             |
-| MCP       | mundo externo       |
+| Pieza | Rol |
+|------|-----|
+| Steering | reglas |
+| Specs | ejecución |
+| Skills | comportamiento |
+| Hooks | control |
+| MCP | acceso externo |
 | Multihilo | manejo del contexto |
 
 👉 multihilo = salud mental del sistema
@@ -242,31 +168,17 @@ Estos 3 mecanismos atacan el mismo problema:
 
 Pensalo así:
 
-👉 Tangent = pensar
-👉 Spec = decidir
-👉 Subagente = ejecutar
-
----
-
-# 🚀 Nivel avanzado
-
-Podés:
-
-* aislar discusiones complejas
-* paralelizar desarrollo
-* experimentar sin romper nada
-* mantener contexto limpio en proyectos grandes
+- Tangent = pensar en una burbuja
+- Spec = decidir formalmente
+- Subagente = ejecutar en paralelo sin mezclar temas
 
 ---
 
 # 🎯 Resumen final
 
-* Kiro separa contexto en múltiples hilos
-* evita alucinaciones
-* mejora performance
-* permite rollback y paralelismo
+- Kiro separa contexto en múltiples hilos
+- evita alucinaciones por contaminación de conversación
+- mejora rollback y paralelismo
 
 👉 sin multihilo → caos
-👉 con multihilo → control total
-
----
+👉 con multihilo → control

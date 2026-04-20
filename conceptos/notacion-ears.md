@@ -1,121 +1,101 @@
-# 🧩 EARS Cheat Sheet PRO (para Kiro / SDD)
+# 🧩 Kiro EARS Cheat Sheet PRO
 
 ## 🎯 Objetivo
 
 Escribir requisitos:
-
-* claros
-* sin ambigüedad
-* verificables
-* útiles para generar código y tests automáticamente
+- claros
+- sin ambigüedad
+- verificables
+- útiles para generar código y tests
 
 👉 EARS elimina interpretaciones subjetivas y reduce bugs desde el origen.
-
-
 
 ---
 
 # 🧠 Tipos de EARS
 
-## 🟢 1. Ubiquitous (Siempre aplica)
+## 🟢 1. Ubiquitous
 
 **Formato:**
-El sistema debe <comportamiento>
+`El sistema debe <comportamiento>`
 
 **Ejemplo:**
-El sistema debe cifrar todas las contraseñas usando bcrypt
+El sistema debe cifrar todas las contraseñas usando bcrypt.
 
 📌 Uso:
-
-* reglas globales
-* seguridad
-* invariantes del sistema
+- reglas globales
+- invariantes
+- seguridad
 
 ---
 
-## 🟡 2. Event-driven (Trigger)
+## 🟡 2. Event-driven
 
 **Formato:**
-Cuando <evento>, el sistema debe <respuesta>
+`Cuando <evento>, el sistema debe <respuesta>`
 
 **Ejemplo:**
-Cuando el usuario envía el formulario, el sistema debe validar los datos
+Cuando el usuario envía el formulario, el sistema debe validar los datos.
 
 📌 Uso:
-
-* acciones del usuario
-* eventos de sistema
-* endpoints
+- acciones de usuario
+- eventos del sistema
+- endpoints
 
 ---
 
-## 🔵 3. State-driven (Estado)
+## 🔵 3. State-driven
 
 **Formato:**
-Mientras <estado>, el sistema debe <respuesta>
+`Mientras <estado>, el sistema debe <respuesta>`
 
 **Ejemplo:**
-Mientras el carrito esté vacío, el sistema debe desactivar el botón de checkout
+Mientras el carrito esté vacío, el sistema debe desactivar el botón de checkout.
 
 📌 Uso:
-
-* UI dinámica
-* restricciones de flujo
-* estados de negocio
+- UI dinámica
+- restricciones de flujo
+- estados de negocio
 
 ---
 
-## 🔴 4. Unwanted behavior (Errores / fallos)
+## 🔴 4. Unwanted behavior
 
 **Formato:**
-Si <condición no deseada>, el sistema debe <respuesta>
+`Si <condición no deseada>, el sistema debe <respuesta>`
 
 **Ejemplo:**
-Si el pago falla, el sistema debe rechazar la transacción y registrar el error
+Si el pago falla, el sistema debe rechazar la transacción y registrar el error.
 
 📌 Uso:
-
-* edge cases
-* resiliencia
-* errores externos (APIs, timeouts)
+- edge cases
+- fallos externos
+- resiliencia
 
 ---
 
-## 🟣 5. Optional (Condicional)
+## 🟣 5. Optional
 
 **Formato:**
-Donde <condición>, el sistema debe <respuesta>
+`Donde <condición>, el sistema debe <respuesta>`
 
 **Ejemplo:**
-Donde el usuario tenga 2FA habilitado, el sistema debe solicitar código adicional
+Donde el usuario tenga 2FA habilitado, el sistema debe solicitar un código adicional.
 
 📌 Uso:
-
-* feature flags
-* planes premium
-* configuraciones opcionales
+- feature flags
+- planes premium
+- configuraciones opcionales
 
 ---
 
 # ⚠️ Reglas rápidas
 
-* ❌ Evitar:
-
-  * “manejar correctamente”
-  * “validar bien”
-  * “adecuadamente”
-
-* ✔️ Especificar:
-
-  * qué pasa
-  * cuándo pasa
-  * qué hace el sistema
-
-* ✔️ Un requisito = una idea
-
-* ✔️ Frases cortas
-
-* ✔️ Términos consistentes
+- ❌ Evitar: “manejar correctamente”, “validar bien”, “adecuadamente”
+- ✔️ Especificar: qué pasa, cuándo pasa y qué hace el sistema
+- ✔️ Un requisito = una idea
+- ✔️ Frases cortas
+- ✔️ Términos consistentes
 
 ---
 
@@ -131,24 +111,22 @@ Donde el usuario tenga saldo disponible, el sistema debe permitir usarlo como m�
 
 ---
 
-# 🧠 Criterios de aceptación (CLAVE en Kiro)
+# 🧠 Criterios de aceptación
 
 Cada requisito debería poder validarse con:
 
-## Formato:
+## Formato
 
 Given <contexto>
 When <acción>
 Then <resultado esperado>
 
-
-
 ---
 
-## Ejemplo:
+## Ejemplo
 
-**Requisito (EARS):**
-Cuando el usuario envía el formulario, el sistema debe validar el email
+**Requisito EARS:**
+Cuando el usuario envía el formulario, el sistema debe validar el email.
 
 **Acceptance Criteria:**
 
@@ -162,17 +140,14 @@ Then el sistema debe procesar correctamente
 
 ---
 
-# 🔥 EARS dentro de Kiro (esto es lo importante)
+# 🔥 Dónde encaja en SDD
 
-* EARS vive en `requirements.md`
-* Es la **fase 1 del Spec**
-* Define la fuente de verdad del sistema
+- EARS vive naturalmente en `requirements.md` o `business-spec.md`
+- sirve para alinear negocio, desarrollo, QA y agentes
+- ayuda muchísimo en fases behavior-first
 
-👉 Kiro usa esto para:
-
-* diseñar arquitectura
-* generar código
-* crear tests automáticamente
+👉 EARS no reemplaza el diseño.
+Pero sí evita que el diseño arranque sobre ambigüedad.
 
 ---
 
@@ -182,42 +157,36 @@ Then el sistema debe procesar correctamente
 ❌ “Validar datos del usuario”
 ❌ “Optimizar performance”
 
-👉 No dicen nada accionable
+👉 No dicen nada accionable.
 
 ---
 
 # 🎯 Regla de oro
 
 Un requisito EARS está bien si:
-
-* no admite doble interpretación
-* se puede testear
-* define claramente trigger + acción + resultado
+- no admite doble interpretación
+- se puede testear
+- define claramente trigger + acción + resultado
 
 ---
 
 # 🧠 Mental model
 
-EARS = contrato
+EARS = contrato operativo entre:
+- negocio
+- dev
+- QA
+- IA
 
-👉 entre:
-
-* negocio
-* dev
-* QA
-* IA
-
-Si está mal escrito → todo lo demás falla en cadena.
+Si está mal escrito, todo lo demás falla en cadena.
 
 ---
 
-# 🚀 Resumen final
+# 🎯 Resumen final
 
-* EARS estructura requisitos
-* elimina ambigüedad
-* permite automatización real
-* es la base de SDD en Kiro
+- EARS estructura requisitos
+- reduce ambigüedad
+- mejora specs y tests
+- sirve especialmente bien en SDD
 
 👉 buen EARS = menos bugs + mejor código + menos vueltas
-
----

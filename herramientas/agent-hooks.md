@@ -1,4 +1,4 @@
-# 🛡️ Kiro Agent Hooks Cheat Sheet PRO
+# 🧩 Kiro Agent Hooks Cheat Sheet PRO
 
 ## 🎯 Objetivo
 
@@ -12,13 +12,11 @@ Controlar y proteger lo que Kiro puede hacer en tu máquina.
 
 Los **Agent Hooks** son callbacks automáticos que:
 
-* interceptan acciones del agente
-* ejecutan validaciones
-* pueden bloquear ejecuciones
+- interceptan acciones del agente
+- ejecutan validaciones
+- pueden bloquear ejecuciones
 
-👉 Actúan como guardias de seguridad invisibles
-
-
+👉 actúan como guardias de seguridad invisibles
 
 ---
 
@@ -26,14 +24,14 @@ Los **Agent Hooks** son callbacks automáticos que:
 
 Hook = firewall del agente
 
-👉 No evita que piense
-👉 Evita que haga cosas peligrosas
+👉 no evita que piense
+👉 evita que haga cosas peligrosas
 
 ---
 
 # ⚙️ Dónde viven
 
-```bash id="m1k9zp"
+```bash
 .kiro/hooks.json
 ```
 
@@ -41,7 +39,7 @@ Hook = firewall del agente
 
 # 🧩 Estructura básica
 
-```json id="q7x2vn"
+```json
 {
   "hooks": {
     "PreToolUse": [
@@ -62,34 +60,34 @@ Hook = firewall del agente
 
 # 🧩 Conceptos clave
 
-## 🔹 Trigger (cuándo se ejecuta)
+## 🔹 Trigger
+
+Cuándo se ejecuta.
 
 Ejemplos:
-
-* `PreToolUse` → antes de ejecutar herramientas (bash, etc)
-* `FileSave` → al guardar archivos
-
-👉 define el momento de control
+- `PreToolUse`
+- `FileSave`
 
 ---
 
-## 🔹 Matcher (qué intercepta)
+## 🔹 Matcher
 
-```json id="y2r8mk"
+Qué intercepta.
+
+Ejemplo:
+
+```json
 "matcher": "Bash"
 ```
 
-👉 define el tipo de acción
-
 ---
 
-## 🔹 Action (qué hace)
+## 🔹 Action
 
-Puede:
-
-* ejecutar script
-* validar
-* bloquear
+Qué hace el hook:
+- ejecutar script
+- validar
+- bloquear
 
 ---
 
@@ -97,25 +95,21 @@ Puede:
 
 1. Kiro intenta ejecutar algo
 2. Hook intercepta
-3. Se ejecuta el script
+3. Se corre el script
 4. Resultado:
 
-* `0` → ✅ permitido
-* `!= 0` → ❌ bloqueado
+- `0` → permitido
+- `!= 0` → bloqueado
 
-👉 si falla → Kiro NO ejecuta
-
-
+👉 si falla, Kiro NO ejecuta la acción
 
 ---
 
 # 🧪 Ejemplos prácticos
 
----
-
 ## ☠️ Bloquear comandos peligrosos
 
-```bash id="k9t3xp"
+```bash
 #!/bin/bash
 
 if [[ "$KIRO_COMMAND" == *"rm -rf"* ]]; then
@@ -126,13 +120,11 @@ fi
 exit 0
 ```
 
-👉 evita desastres
-
 ---
 
 ## 🧪 Validar tests antes de ejecutar
 
-```json id="r4v1ls"
+```json
 {
   "hooks": {
     "PreToolUse": [
@@ -148,13 +140,11 @@ exit 0
 }
 ```
 
-👉 no ejecuta nada si falla
-
 ---
 
-## 🧹 Lint automático
+## 🧹 Lint automático al guardar
 
-```json id="x8p2zn"
+```json
 {
   "hooks": {
     "FileSave": [
@@ -176,13 +166,13 @@ exit 0
 
 Hooks ≠ Skills
 
-| Concepto | Rol            |
-| -------- | -------------- |
-| Skills   | comportamiento |
-| Hooks    | control        |
+| Concepto | Rol |
+|----------|-----|
+| Skills | comportamiento |
+| Hooks | control |
 
 👉 Skills = “hacé esto”
-👉 Hooks = “esto no lo hacés ni en pedo”
+👉 Hooks = “esto no lo hacés ni loco”
 
 ---
 
@@ -190,23 +180,20 @@ Hooks ≠ Skills
 
 Usalos cuando haya riesgo real:
 
-* comandos destructivos
-* scripts bash
-* deploys
-* acceso a DB
-* cambios sensibles
-
-👉 todo lo que pueda romper algo
+- comandos destructivos
+- scripts bash delicados
+- deploys
+- acceso a DB
+- cambios sensibles
 
 ---
 
 # ⚠️ Cuándo NO usarlos
 
 No usar para:
-
-* lógica de negocio
-* features
-* validaciones simples
+- lógica de negocio
+- features
+- validaciones demasiado livianas
 
 👉 eso va en specs o skills
 
@@ -215,19 +202,12 @@ No usar para:
 # 🚨 Anti-patrones
 
 ## ❌ No usar hooks
-
-👉 Kiro puede hacer cosas peligrosas
-
----
+👉 Kiro puede ejecutar cosas peligrosas sin fricción
 
 ## ❌ Hooks demasiado restrictivos
-
-👉 bloqueás productividad
-
----
+👉 bloqueás productividad por paranoia
 
 ## ❌ Scripts lentos
-
 👉 frena todo el flujo
 
 ---
@@ -238,29 +218,18 @@ Pensalos como:
 
 👉 CI/CD local en tiempo real
 
-Antes de que algo pase… ya lo frenaste
-
----
-
-# 🚀 Nivel avanzado
-
-Podés:
-
-* encadenar múltiples hooks
-* validar distintos tipos de acciones
-* integrar scripts complejos
-* aplicar políticas de seguridad tipo empresa
+Antes de que algo pase, ya lo frenaste.
 
 ---
 
 # 🧠 Relación con el sistema
 
-| Pieza    | Rol            |
-| -------- | -------------- |
-| Steering | reglas         |
-| Specs    | ejecución      |
-| Skills   | comportamiento |
-| Hooks    | control        |
+| Pieza | Rol |
+|------|-----|
+| Steering | reglas |
+| Specs | ejecución |
+| Skills | comportamiento |
+| Hooks | control |
 
 👉 Hooks = guardia final
 
@@ -268,12 +237,10 @@ Podés:
 
 # 🎯 Resumen final
 
-* Hook = interceptor automático
-* ejecuta validaciones
-* puede bloquear acciones
-* protege tu entorno
+- Hook = interceptor automático
+- ejecuta validaciones
+- puede bloquear acciones
+- protege tu entorno
 
 👉 sin hooks → potencia sin control
 👉 con hooks → potencia segura
-
----

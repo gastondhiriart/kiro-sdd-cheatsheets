@@ -1,223 +1,194 @@
-# 🧩 EARS Cheat Sheet PRO (para Kiro / SDD)
+# 🧩 `.kiroignore` Cheat Sheet PRO
 
 ## 🎯 Objetivo
 
-Escribir requisitos:
+Controlar **qué puede leer Kiro y qué no** dentro del repo.
 
-* claros
-* sin ambigüedad
-* verificables
-* útiles para generar código y tests automáticamente
-
-👉 EARS elimina interpretaciones subjetivas y reduce bugs desde el origen.
-
-
+👉 No es optimización
+👉 Es **seguridad + calidad de contexto**
 
 ---
 
-# 🧠 Tipos de EARS
+# 🧠 Qué es `.kiroignore`
 
-## 🟢 1. Ubiquitous (Siempre aplica)
+`.kiroignore` es un archivo que:
 
-**Formato:**
-El sistema debe <comportamiento>
+👉 **bloquea el acceso de lectura del agente**
 
-**Ejemplo:**
-El sistema debe cifrar todas las contraseñas usando bcrypt
+Si Kiro intenta leer algo ignorado:
 
-📌 Uso:
-
-* reglas globales
-* seguridad
-* invariantes del sistema
+👉 recibe un rechazo de acceso
 
 ---
 
-## 🟡 2. Event-driven (Trigger)
+## 🧠 Mental model
 
-**Formato:**
-Cuando <evento>, el sistema debe <respuesta>
+`.kiroignore` = persiana selectiva del repo
 
-**Ejemplo:**
-Cuando el usuario envía el formulario, el sistema debe validar los datos
-
-📌 Uso:
-
-* acciones del usuario
-* eventos de sistema
-* endpoints
+👉 no es “lo que no uso”
+👉 es “lo que el agente NO debe ver”
 
 ---
 
-## 🔵 3. State-driven (Estado)
+# ⚠️ Diferencia clave
 
-**Formato:**
-Mientras <estado>, el sistema debe <respuesta>
+## `.gitignore`
+- oculta archivos del versionado
 
-**Ejemplo:**
-Mientras el carrito esté vacío, el sistema debe desactivar el botón de checkout
+## Inclusion modes
+- controlan cuándo se usa contexto
 
-📌 Uso:
+## `.kiroignore`
+- **bloquea lectura real del agente**
 
-* UI dinámica
-* restricciones de flujo
-* estados de negocio
-
----
-
-## 🔴 4. Unwanted behavior (Errores / fallos)
-
-**Formato:**
-Si <condición no deseada>, el sistema debe <respuesta>
-
-**Ejemplo:**
-Si el pago falla, el sistema debe rechazar la transacción y registrar el error
-
-📌 Uso:
-
-* edge cases
-* resiliencia
-* errores externos (APIs, timeouts)
+👉 Es seguridad, no organización
 
 ---
 
-## 🟣 5. Optional (Condicional)
+# 🧩 Qué conviene ignorar
 
-**Formato:**
-Donde <condición>, el sistema debe <respuesta>
+## 🔐 Secretos y credenciales
 
-**Ejemplo:**
-Donde el usuario tenga 2FA habilitado, el sistema debe solicitar código adicional
-
-📌 Uso:
-
-* feature flags
-* planes premium
-* configuraciones opcionales
+- `.env`, `.env.*`
+- `*.pem`, `*.key`
+- tokens
+- secretos cloud
+- certificados
 
 ---
 
-# ⚠️ Reglas rápidas
+## 🧱 Ruido técnico
 
-* ❌ Evitar:
-
-  * “manejar correctamente”
-  * “validar bien”
-  * “adecuadamente”
-
-* ✔️ Especificar:
-
-  * qué pasa
-  * cuándo pasa
-  * qué hace el sistema
-
-* ✔️ Un requisito = una idea
-
-* ✔️ Frases cortas
-
-* ✔️ Términos consistentes
+- `node_modules/`
+- `dist/`, `build/`, `.next/`
+- `coverage/`
+- logs
+- bundles
+- outputs compilados
 
 ---
 
-# 🧪 Ejemplo completo
+## 📦 Archivos pesados o irrelevantes
 
-Cuando el usuario hace click en "Comprar", el sistema debe crear una orden
-
-Si el pago falla, el sistema debe mostrar un mensaje de error
-
-Mientras la orden esté en estado "pendiente", el sistema debe permitir reintentar el pago
-
-Donde el usuario tenga saldo disponible, el sistema debe permitir usarlo como método de pago
+- dumps
+- temporales
+- snapshots gigantes
+- assets enormes si no aportan al trabajo actual
 
 ---
 
-# 🧠 Criterios de aceptación (CLAVE en Kiro)
+## ☠️ Zonas sensibles
 
-Cada requisito debería poder validarse con:
+- configs internas
+- infraestructura delicada
+- scripts críticos
 
-## Formato:
-
-Given <contexto>
-When <acción>
-Then <resultado esperado>
-
-
+👉 especialmente si no querés que Kiro sugiera cambios ahí
 
 ---
 
-## Ejemplo:
+# 🚫 Qué NO conviene ignorar
 
-**Requisito (EARS):**
-Cuando el usuario envía el formulario, el sistema debe validar el email
+No tapes lo que Kiro necesita para entender el sistema:
 
-**Acceptance Criteria:**
+- `src/`
+- tests
+- `package.json`
+- configs del framework
+- contratos de API
+- migraciones relevantes
+- docs internas útiles
+- tipos y utilidades importantes
 
-Given un email inválido
-When el usuario envía el formulario
-Then el sistema debe mostrar error y no enviar datos
-
-Given un email válido
-When el usuario envía el formulario
-Then el sistema debe procesar correctamente
-
----
-
-# 🔥 EARS dentro de Kiro (esto es lo importante)
-
-* EARS vive en `requirements.md`
-* Es la **fase 1 del Spec**
-* Define la fuente de verdad del sistema
-
-👉 Kiro usa esto para:
-
-* diseñar arquitectura
-* generar código
-* crear tests automáticamente
+👉 si ocultás esto, Kiro queda medio ciego.
 
 ---
 
-# 🚨 Anti-patrones
+# 🧪 Ejemplo recomendado
 
-❌ “El sistema debe manejar errores correctamente”
-❌ “Validar datos del usuario”
-❌ “Optimizar performance”
+```gitignore
+# secretos
+.env
+.env.*
+*.pem
+*.key
 
-👉 No dicen nada accionable
+# dependencias / build
+node_modules/
+dist/
+build/
+.next/
+coverage/
 
----
+# logs / temp
+*.log
+tmp/
+temp/
 
-# 🎯 Regla de oro
-
-Un requisito EARS está bien si:
-
-* no admite doble interpretación
-* se puede testear
-* define claramente trigger + acción + resultado
-
----
-
-# 🧠 Mental model
-
-EARS = contrato
-
-👉 entre:
-
-* negocio
-* dev
-* QA
-* IA
-
-Si está mal escrito → todo lo demás falla en cadena.
+# binarios / caches
+.cache/
+*.zip
+*.tar.gz
+```
 
 ---
 
-# 🚀 Resumen final
+# 🔥 Regla de oro
 
-* EARS estructura requisitos
-* elimina ambigüedad
-* permite automatización real
-* es la base de SDD en Kiro
+Preguntate:
 
-👉 buen EARS = menos bugs + mejor código + menos vueltas
+👉 “¿Quiero que Kiro use esto para pensar?”
+
+- Sí → no ignorar
+- No → ignorar
 
 ---
+
+# ⚠️ Anti-patrones
+
+## ❌ Ignorar demasiado
+👉 Kiro no entiende el sistema y empieza a inventar
+
+## ❌ No ignorar secretos
+👉 riesgo innecesario
+
+## ❌ Ignorar configs clave
+👉 decisiones inconsistentes y bugs raros
+
+---
+
+# 🧠 Relación con otras piezas
+
+| Concepto | Rol |
+|----------|-----|
+| Steering | qué reglas seguir |
+| Specs | qué construir |
+| Skills | cómo trabajar |
+| `.kiroignore` | qué NO ver |
+
+👉 `.kiroignore` define el **límite de percepción** del agente.
+
+---
+
+# 💡 Tip PRO
+
+Arrancá simple:
+
+- ignorá secretos
+- ignorá build artifacts
+- ignorá ruido obvio
+- dejá visible todo lo que explica el sistema
+
+Después ajustás fino.
+
+---
+
+# 🎯 Resumen final
+
+- `.kiroignore` controla acceso real del agente
+- no es para limpiar, es para proteger
+- define qué entra en el “cerebro” de Kiro
+- impacta directamente en la calidad del output
+
+👉 bien usado = Kiro enfocado
+👉 mal usado = Kiro confundido o peligroso

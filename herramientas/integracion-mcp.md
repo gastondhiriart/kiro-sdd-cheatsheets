@@ -1,12 +1,12 @@
-# 🌐 Kiro MCP Cheat Sheet PRO (Model Context Protocol)
+# 🧩 Kiro MCP Cheat Sheet PRO (Model Context Protocol)
 
 ## 🎯 Objetivo
 
 Permitir que Kiro:
 
-* acceda a datos externos
-* interactúe con servicios reales
-* ejecute acciones fuera del código local
+- acceda a datos externos
+- interactúe con servicios reales
+- ejecute acciones fuera del código local
 
 👉 MCP = **los ojos y manos de Kiro fuera del IDE**
 
@@ -16,27 +16,25 @@ Permitir que Kiro:
 
 El **Model Context Protocol (MCP)** es un estándar que permite conectar Kiro con:
 
-* APIs externas
-* bases de datos
-* servicios cloud
-* herramientas de búsqueda
+- APIs externas
+- bases de datos
+- servicios cloud
+- herramientas de búsqueda
 
-👉 rompe la “caja cerrada” de la IA
-
-
+👉 rompe la caja cerrada de la IA
 
 ---
 
 ## 🧠 Mental model
 
-* Sin MCP → Kiro piensa pero está ciego
-* Con MCP → Kiro ve, consulta y actúa
+- Sin MCP → Kiro piensa pero está ciego
+- Con MCP → Kiro ve, consulta y actúa
 
 ---
 
 # ⚙️ Dónde se configura
 
-```bash id="mcp-path"
+```bash
 .kiro/mcp-servers.json
 ```
 
@@ -44,35 +42,17 @@ El **Model Context Protocol (MCP)** es un estándar que permite conectar Kiro co
 
 # 🧩 Qué puede hacer con MCP
 
-* consultar base de datos
-* leer repos remotos
-* buscar documentación actualizada
-* ejecutar queries
-* interactuar con APIs
+- consultar base de datos
+- leer repos remotos
+- buscar documentación actualizada
+- ejecutar queries
+- interactuar con APIs
 
-👉 Ejemplos reales:
-
-* GitHub API → leer PRs
-* PostgreSQL → consultar datos reales
-* Brave Search → docs recientes
-
----
-
-# 🧪 Ejemplo conceptual
-
-```json id="mcp-example"
-{
-  "servers": [
-    {
-      "name": "postgres-db",
-      "command": "npx",
-      "args": ["mcp-postgres", "--connection", "postgres://..."]
-    }
-  ]
-}
-```
-
-👉 habilita acceso a DB real
+👉 Ejemplos comunes:
+- GitHub
+- Jira
+- PostgreSQL
+- Search
 
 ---
 
@@ -83,17 +63,16 @@ MCP por sí solo:
 👉 es poderoso… y peligroso
 
 Puede:
-
-* borrar datos
-* ejecutar queries destructivas
-* afectar sistemas reales
+- borrar datos
+- ejecutar queries destructivas
+- afectar sistemas reales
 
 ---
 
 # 🧠 Powers (control sobre MCP)
 
-👉 MCP = acceso
-👉 Power = reglas sobre ese acceso
+👉 MCP = acceso 🔑
+👉 Power = reglas de uso sobre ese acceso 🛡️
 
 ---
 
@@ -104,31 +83,36 @@ Un **Power** combina:
 1. conexión MCP
 2. instrucciones (Markdown)
 
-👉 define:
+👉 gobierna cómo el agente usa ese MCP:
 
-* qué puede hacer
-* qué NO puede hacer
-* cómo debe comportarse
+- qué acciones puede ejecutar
+- qué acciones están prohibidas
+- cómo debe comportarse al interactuar con el sistema
 
 ---
 
 ## 🧠 Mental model
 
-MCP = llaves 🔑
-Power = contrato 📜
+- MCP = llaves
+- Power = reglas operativas sobre esas llaves
+
+👉 un Power se parece a un contrato, pero no es solo un contrato pasivo.
+Influye directamente en cómo actúa el agente.
 
 ---
 
 ## 🧪 Ejemplo de Power
 
-```md id="power-example"
+```md
 # PostgreSQL Power
 
-- Prohibido ejecutar DELETE sin WHERE  
-- Limitar queries a 100 registros  
-- Usar paginación  
-- Nunca modificar tablas en producción  
+- Prohibido ejecutar DELETE sin WHERE
+- Limitar queries a 100 registros
+- Usar paginación
+- Nunca modificar tablas en producción
 ```
+
+👉 esto controla cómo Kiro usa la DB
 
 ---
 
@@ -136,70 +120,61 @@ Power = contrato 📜
 
 ## 🟢 Install Powers
 
-Powers **preconstruidos y auditados** que Kiro ya trae.
+Powers preconstruidos y auditados.
 
-👉 Incluyen:
-
-* conexión MCP configurada
-* reglas optimizadas
-* comportamiento validado
+👉 incluyen:
+- conexión MCP configurada
+- reglas optimizadas
+- comportamiento validado
 
 Ejemplos:
-
-* GitHub Power
-* PostgreSQL Power
-* Brave Search Power
+- GitHub
+- PostgreSQL
+- Search
 
 ### Cuándo usarlos
-
-* querés rapidez
-* existe algo que ya te sirve
-* no necesitás customizar mucho
-
-👉 ventaja: rápido, seguro, plug & play
+- querés rapidez
+- ya existe uno que te sirve
+- no necesitás customizar mucho
 
 ---
 
 ## 🔵 Create Powers
 
-Powers **hechos a medida** por vos.
+Powers hechos a medida.
 
-Definís:
+👉 definís:
+- conexión MCP
+- reglas específicas
 
-1. MCP (conexión técnica)
-2. reglas (archivo `.md`)
-
-### Cuándo usarlos
-
-* APIs internas
-* microservicios propios
-* reglas específicas del negocio
-
-👉 ventaja: control total
+Usar cuando:
+- hay APIs internas
+- hay reglas propias del equipo
+- necesitás comportamiento muy específico
 
 ---
 
 ## 🧠 Regla práctica
 
-* Install → “usar algo ya armado”
-* Create → “adaptar Kiro a mi sistema”
+- Install → rápido y seguro
+- Create → flexible y controlado
 
 ---
 
 # 🔥 Cuándo usar MCP
 
-* necesitás datos reales
-* debugging con DB
-* integrar sistemas externos
-* consultar APIs o repos
+- necesitás datos reales
+- debugging con DB
+- integrar sistemas externos
+- consultar APIs o repos remotos
 
 ---
 
 # ⚠️ Cuándo NO usar MCP
 
-* no necesitás datos reales
-* podés resolverlo local
-* hay riesgo innecesario
+- no necesitás datos reales
+- podés resolverlo localmente
+- hay riesgo innecesario
 
 👉 MCP agrega complejidad y riesgo
 
@@ -208,33 +183,26 @@ Definís:
 # 🚨 Anti-patrones
 
 ## ❌ MCP sin Power
-
 👉 acceso sin control
 
----
-
 ## ❌ Dar acceso total
-
 👉 riesgo real en producción
 
----
-
 ## ❌ No limitar queries
-
-👉 problemas de performance / costos
+👉 problemas de performance o costos
 
 ---
 
 # 🧠 Relación con el sistema
 
-| Pieza    | Rol                |
-| -------- | ------------------ |
-| Steering | reglas globales    |
-| Specs    | ejecución          |
-| Skills   | comportamiento     |
-| Hooks    | control            |
-| MCP      | acceso externo     |
-| Power    | control del acceso |
+| Pieza | Rol |
+|------|-----|
+| Steering | reglas globales |
+| Specs | ejecución |
+| Skills | comportamiento |
+| Hooks | control |
+| MCP | acceso externo |
+| Power | control del acceso |
 
 👉 MCP expande el mundo de Kiro
 
@@ -242,21 +210,20 @@ Definís:
 
 # 💡 Tip PRO
 
-* empezá con **Install Powers**
-* pasá a **Create Powers** cuando necesites precisión
-* siempre limitá permisos
+- empezá con Install Powers
+- pasá a Create Powers cuando necesites precisión
+- siempre limitá permisos
+- si algo puede romper producción, combiná Power + Hooks
 
 ---
 
 # 🎯 Resumen final
 
-* MCP conecta Kiro con el mundo real
-* permite leer, consultar y ejecutar
-* necesita control (Power)
-* tiene impacto directo en riesgo
+- MCP conecta Kiro con el mundo real
+- permite leer, consultar y ejecutar
+- Power define cómo se usa ese acceso
+- es muy potente, pero requiere control
 
 👉 sin MCP → limitado
 👉 con MCP → poderoso
 👉 con Power → usable en serio
-
----

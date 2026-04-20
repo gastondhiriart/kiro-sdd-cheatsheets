@@ -4,9 +4,9 @@
 
 Definir **workflows reutilizables** que Kiro puede:
 
-* entender
-* aplicar automáticamente
-* ejecutar (incluso con scripts)
+- entender
+- aplicar automáticamente
+- ejecutar (incluso con scripts)
 
 👉 Skills = **cómo trabaja el agente**
 
@@ -16,14 +16,12 @@ Definir **workflows reutilizables** que Kiro puede:
 
 Una Skill es un módulo que encapsula:
 
-* instrucciones (Markdown)
-* ejemplos
-* lógica ejecutable (scripts)
+- instrucciones (Markdown)
+- ejemplos
+- lógica ejecutable (scripts)
 
 👉 No es un prompt
 👉 Es un **comportamiento reusable y automático**
-
-
 
 ---
 
@@ -32,46 +30,43 @@ Una Skill es un módulo que encapsula:
 Skill = mini especialista
 
 👉 Ejemplos:
-
-* auditor de código
-* experto en docker
-* guardián de commits
+- auditor de código
+- experto en docker
+- guardián de commits
+- revisor de specs
 
 ---
 
 # ⚙️ Para qué sirven
 
-* estandarizar prácticas
-* evitar repetir prompts
-* automatizar tareas complejas
-* ejecutar validaciones reales
+- estandarizar prácticas
+- evitar repetir prompts
+- automatizar tareas complejas
+- ejecutar validaciones reales
 
 👉 Son ideales para:
-
-* linting avanzado
-* validaciones de seguridad
-* CI local
-* convenciones de equipo
-* auditorías
+- linting avanzado
+- validaciones de seguridad
+- chequeo de specs
+- convenciones de commits
+- revisión de documentación
 
 ---
 
 # 🧩 Anatomía de una Skill
 
-```bash id="q8w2ld"
+```bash
 .kiro/skills/<skill-name>/
 ├── SKILL.md
 ├── examples/
 └── scripts/
 ```
 
-
-
 ---
 
 ## 📄 SKILL.md (el cerebro)
 
-```md id="n2k9pm"
+```md
 ---
 name: qa-auditor
 description: Validaciones TypeScript estrictas
@@ -83,33 +78,29 @@ description: Validaciones TypeScript estrictas
 ```
 
 👉 Define:
-
-* cuándo se activa
-* qué reglas aplica
-* qué acciones ejecuta
+- cuándo se activa
+- qué reglas aplica
+- qué acciones ejecuta
 
 ---
 
-# 🤖 Auto-invocación (la magia real)
+# 🤖 Auto-invocación
 
 Kiro usa NLP para decidir:
 
-👉 “esto que pediste → coincide con esta skill”
+👉 “esto que pediste coincide con esta skill”
 
 Ejemplo:
+- vos: “revisame este código de API”
+- Kiro: activa la skill correspondiente
 
-* vos: “lintéame este código”
-* Kiro: activa `qa-auditor`
-
-👉 sin que la llames
-
-
+👉 sin que la llames explícitamente
 
 ---
 
 ## 🎮 Invocación manual
 
-```bash id="c1z7mp"
+```bash
 /qa-auditor
 ```
 
@@ -117,13 +108,11 @@ Ejemplo:
 
 ---
 
-# 🧪 Ejemplos de Skills
-
----
+# 🧪 Ejemplos de skills útiles
 
 ## 🧪 1. QA Auditor
 
-```md id="t9x3pw"
+```md
 ---
 name: qa-auditor
 description: Validaciones estrictas
@@ -134,17 +123,11 @@ description: Validaciones estrictas
 - Ejecutar script
 ```
 
-👉 uso:
-
-* PRs
-* APIs
-* código crítico
-
 ---
 
 ## 🐳 2. Docker Deploy
 
-```md id="f4v8bn"
+```md
 ---
 name: docker-deploy
 description: Reglas Docker
@@ -155,16 +138,11 @@ description: Reglas Docker
 - HEALTHCHECK obligatorio
 ```
 
-👉 uso:
-
-* deploy
-* infraestructura
-
 ---
 
 ## 🧾 3. Commit Messages
 
-```md id="y6k2rs"
+```md
 ---
 name: commit-messages
 description: Conventional commits obligatorio
@@ -175,72 +153,74 @@ description: Conventional commits obligatorio
 - refactor(scope)
 ```
 
-👉 uso:
+---
 
-* commits consistentes
+## 🧠 4. Spec Review
+
+```md
+---
+name: spec-review
+description: Revisión de consistencia entre requirements, design y tasks
+---
+
+- Detectar contradicciones entre documentos
+- Marcar supuestos no explicitados
+- Señalar tasks demasiado grandes o ambiguas
+```
+
+👉 Esta skill es especialmente útil en SDD porque evita specs lindas pero inconsistentes.
 
 ---
 
-# 🧠 Insight CLAVE (esto es lo importante)
+# 🧠 Insight CLAVE
 
 Skills ≠ conocimiento
 
-👉 Skills = comportamiento
+👉 Skills = comportamiento operativo
 
-| Concepto | Rol               |
-| -------- | ----------------- |
+| Concepto | Rol |
+|----------|-----|
 | Steering | qué reglas seguir |
-| Specs    | qué construir     |
-| Skills   | cómo actuar       |
+| Specs | qué construir |
+| Skills | cómo actuar |
 
 ---
 
-## 🔥 Regla de oro
+# 🔥 Regla de oro
 
 Si algo:
+- se repite
+- tiene reglas claras
+- tiene pasos definidos
+- puede validarse o automatizarse
 
-* se repite
-* tiene reglas claras
-* tiene pasos definidos
-
-👉 debería ser una Skill
+👉 probablemente debería ser una Skill
 
 ---
 
 # ⚠️ Cuándo NO usar Skills
 
 No usar para:
+- lógica de negocio
+- features específicas
+- arquitectura del proyecto
 
-* lógica de negocio
-* features específicas
-* arquitectura
-
-👉 eso es steering o specs
+👉 eso va en steering o specs
 
 ---
 
 # 🚨 Anti-patrones
 
 ## ❌ Skills genéricas
-
-👉 no aportan nada
-
----
+👉 no aportan nada concreto
 
 ## ❌ Sin ejemplos
-
 👉 Kiro interpreta mal
 
----
-
 ## ❌ Sin scripts cuando hacen falta
-
 👉 pierde potencia real
 
----
-
 ## ❌ Skills demasiado grandes
-
 👉 difíciles de mantener
 
 ---
@@ -249,11 +229,12 @@ No usar para:
 
 Las mejores skills tienen:
 
-* reglas claras
-* ejemplos buenos/malos
-* scripts ejecutables
+- reglas claras
+- ejemplos buenos/malos
+- scripts ejecutables
+- un scope acotado
 
-👉 ahí Kiro pasa de “sugerir” a “hacer”
+👉 ahí Kiro pasa de “sugerir” a “hacer con criterio”.
 
 ---
 
@@ -261,41 +242,22 @@ Las mejores skills tienen:
 
 ## Importar skills
 
-```bash id="u7m1sk"
+```bash
 kiro skill import https://github.com/org/skills
 ```
 
+## Usarlas como cerebro compartido
 
-
----
-
-## Usarlas como “cerebro compartido”
-
-👉 equipo entero comparte mismas reglas
+👉 todo el equipo comparte las mismas reglas operativas
 
 ---
 
-# 🎯 Relación con el sistema
+# 🎯 Resumen final
 
-| Pieza    | Rol                |
-| -------- | ------------------ |
-| Steering | define reglas      |
-| Specs    | definen cambios    |
-| Skills   | ejecutan workflows |
-| Hooks    | controlan acciones |
-
-👉 Skills = músculo operativo
-
----
-
-# 🚀 Resumen final
-
-* Skill = workflow reusable
-* se activa automáticamente
-* puede ejecutar código real
-* reduce errores y repetición
+- Skill = workflow reusable
+- se activa automáticamente o por slash
+- puede ejecutar lógica real
+- sirve muchísimo para SDD cuando querés consistencia operativa
 
 👉 sin skills → repetís prompts
 👉 con skills → sistema consistente
-
----

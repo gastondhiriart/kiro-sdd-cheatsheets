@@ -1,13 +1,13 @@
-# 🧩 Kiro Modelos IA según uso Cheat Sheet PRO
+# 🧩 Kiro Modelos según uso Cheat Sheet PRO
 
 ## 🎯 Objetivo
 
 Elegir el modelo correcto según:
 
-* complejidad
-* costo (credits)
-* velocidad
-* tipo de tarea
+- complejidad
+- costo
+- velocidad
+- tipo de tarea
 
 👉 Modelo correcto = mejor resultado + menos costo
 
@@ -19,17 +19,17 @@ Elegir el modelo correcto según:
 
 👉 Kiro elige el modelo automáticamente según la tarea
 
-* tareas simples → modelos baratos
-* tareas complejas → modelos más potentes
+- tareas simples → modelos baratos
+- tareas complejas → modelos más potentes
 
 ---
 
 ## ✅ Cuándo usar Auto
 
-* flujo normal de trabajo
-* cuando no sabés qué elegir
-* tasks.md
-* uso diario
+- flujo normal de trabajo
+- cuando no sabés qué elegir
+- tasks.md
+- uso diario
 
 👉 **Default recomendado**
 
@@ -37,9 +37,9 @@ Elegir el modelo correcto según:
 
 ## ⚠️ Cuándo NO usar Auto
 
-* querés control fino del costo
-* estás debuggeando algo complejo
-* estás definiendo arquitectura
+- querés control fino del costo
+- estás debuggeando algo complejo
+- estás definiendo arquitectura
 
 👉 ahí conviene elegir manual
 
@@ -54,24 +54,20 @@ Elegir el modelo correcto según:
 
 # 🧩 Modelos disponibles (tu setup)
 
----
-
 ## 🟣 Claude Opus 4.6 (2.2x 💸)
 
-👉 el más potente (y caro)
+👉 el más potente y también el más caro/lento
 
 ### Usar para:
-
-* requirements complejos (EARS)
-* diseño arquitectónico
-* debugging difícil
-* decisiones críticas
+- requirements complejos (EARS)
+- diseño arquitectónico
+- debugging difícil
+- decisiones críticas
 
 ### ❌ NO usar para:
-
-* tasks.md
-* código repetitivo
-* cosas simples
+- tasks.md
+- código repetitivo
+- cosas simples
 
 👉 **usar solo cuando realmente haga falta**
 
@@ -82,11 +78,10 @@ Elegir el modelo correcto según:
 👉 balance ideal
 
 ### Usar para:
-
-* implementación
-* refactors
-* código general
-* uso diario
+- implementación
+- refactors
+- código general
+- uso diario
 
 👉 **mejor default manual**
 
@@ -94,7 +89,7 @@ Elegir el modelo correcto según:
 
 ## 🟢 Claude Sonnet 4 (1.3x)
 
-👉 similar a 4.5 pero más orientado a coding
+👉 similar a 4.5, buen caballo de batalla para coding
 
 ---
 
@@ -103,10 +98,9 @@ Elegir el modelo correcto según:
 👉 rápido y barato
 
 ### Usar para:
-
-* tareas simples
-* transformaciones
-* respuestas rápidas
+- tareas simples
+- transformaciones puntuales
+- respuestas rápidas
 
 ---
 
@@ -115,10 +109,9 @@ Elegir el modelo correcto según:
 👉 excelente costo/beneficio
 
 ### Usar para:
-
-* generación de código
-* iteraciones rápidas
-* tasks repetitivas
+- generación de código
+- iteraciones rápidas
+- tasks repetitivas
 
 ---
 
@@ -127,10 +120,9 @@ Elegir el modelo correcto según:
 👉 rápido y barato
 
 ### Usar para:
-
-* tareas livianas
-* contenido simple
-* soporte general
+- tareas livianas
+- contenido simple
+- soporte general
 
 ---
 
@@ -139,9 +131,8 @@ Elegir el modelo correcto según:
 👉 modelo intermedio
 
 ### Usar para:
-
-* tareas mixtas
-* código + texto
+- tareas mixtas
+- código + texto
 
 ---
 
@@ -150,44 +141,36 @@ Elegir el modelo correcto según:
 👉 ultra barato y especializado en código
 
 ### Usar para:
-
-* escribir código
-* completar funciones
-* tasks grandes de código
+- escribir código
+- completar funciones
+- tasks grandes de código
 
 👉 **ideal para ejecución masiva**
 
 ---
 
-# 🔥 Guía práctica (la posta)
+# 🔥 Guía práctica
 
 ## 🧩 Spec Mode
 
 ### requirements.md
-
 👉 Opus 4.6 (solo si es complejo)
 👉 sino Auto / Sonnet
 
----
-
 ### design.md
-
 👉 Opus o Sonnet
 
----
-
 ### tasks.md
-
 👉 Sonnet / Qwen / DeepSeek
-👉 ❌ nunca Opus
+👉 ❌ nunca Opus por defecto
 
 ---
 
 ## 🧪 Vibe Mode
 
-* dudas complejas → Opus
-* código → Sonnet / Qwen
-* cosas simples → Haiku
+- dudas complejas → Opus
+- código → Sonnet / Qwen
+- cosas simples → Haiku
 
 ---
 
@@ -196,45 +179,38 @@ Elegir el modelo correcto según:
 👉 **NO usar Opus por defecto**
 
 Problemas:
-
-* caro (2.2x)
-* lento
-* no mejora tareas simples
+- caro
+- lento
+- no mejora tareas simples de forma proporcional
 
 ---
 
 ## ✅ Usar Opus solo si:
 
-* estás definiendo lógica compleja
-* el problema es difícil
-* necesitás máxima precisión
+- estás definiendo lógica compleja
+- el problema es difícil
+- necesitás máxima precisión
+- una mala decisión cuesta mucho retrabajo
 
 ---
 
 ## 🧠 Regla mental
 
-* pensar → Opus
-* ejecutar → Sonnet / Qwen
-* rápido → Haiku
+- pensar → Opus
+- ejecutar → Sonnet / Qwen
+- rápido → Haiku
 
 ---
 
 # 🚨 Anti-patrones
 
 ## ❌ Usar Opus para todo
-
 👉 quemás credits al pedo
 
----
-
 ## ❌ Usar Haiku para cosas complejas
-
 👉 resultados pobres
 
----
-
 ## ❌ No usar Auto nunca
-
 👉 sobre-optimización innecesaria
 
 ---
@@ -251,11 +227,9 @@ Flujo ideal:
 
 # 🎯 Resumen final
 
-* Auto = mejor default
-* Sonnet = caballo de batalla
-* Opus = bisturí
-* Qwen / DeepSeek = ejecución
+- Auto = mejor default
+- Sonnet = caballo de batalla
+- Opus = bisturí
+- Qwen / DeepSeek = ejecución
 
 👉 elegir bien el modelo = mitad del resultado
-
----

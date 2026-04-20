@@ -1,4 +1,4 @@
-# 🧩 Kiro Steering Files Cheat Sheet PRO
+# 🧩 Kiro Steering Cheat Sheet PRO
 
 ## 🎯 Objetivo
 
@@ -17,16 +17,13 @@ Los **Steering Files** son archivos `.md` que viven en:
 ```
 
 👉 Contienen:
-
-* reglas del proyecto
-* decisiones técnicas
-* contexto de negocio
-* convenciones
+- reglas del proyecto
+- decisiones técnicas
+- contexto de negocio
+- convenciones
 
 👉 Su función principal:
-**evitar que Kiro “invente” o rompa tu arquitectura**
-
-
+**evitar que Kiro invente, improvise o rompa la arquitectura del proyecto**
 
 ---
 
@@ -41,21 +38,36 @@ Es **input directo a cómo la IA toma decisiones**.
 
 ---
 
-# 🧩 Los 3 pilares base
+# 🔥 Principio clave
+
+## 🧠 Pensar antes de codificar
+
+Un buen steering no solo dice *qué stack usamos*.
+También deja claro **cómo se decide**.
+
+👉 Antes de escribir código, Kiro debería poder responder:
+- qué problema está resolviendo
+- qué restricciones no puede violar
+- qué patrones del equipo debe seguir
+- qué zonas del sistema son sensibles
+
+Si eso no está claro en steering, el agente tiende a improvisar.
 
 ---
 
-## ⚙️ `tech.md` — El QUÉ (Stack)
+# 🧩 Los 3 pilares base
+
+## ⚙️ `tech.md` — El QUÉ
 
 Define:
-
-* tecnologías
-* herramientas
-* restricciones técnicas
+- tecnologías
+- herramientas
+- restricciones técnicas
+- estándares de testing, linting y calidad
 
 ### Ejemplo
 
-```md id="qz8f41"
+```md
 # Stack Tecnológico
 
 - Frontend: React 18 con Next.js 14 App Router (nunca Pages Router)
@@ -68,17 +80,17 @@ Define:
 
 ---
 
-## 🧭 `product.md` — El POR QUÉ (Negocio)
+## 🧭 `product.md` — El POR QUÉ
 
 Define:
-
-* qué hace el sistema
-* usuarios
-* reglas críticas
+- qué hace el sistema
+- quién lo usa
+- qué reglas de negocio son intocables
+- prioridades del dominio
 
 ### Ejemplo
 
-```md id="o9w2lm"
+```md
 # Producto: Sistema de Turnos Médicos
 
 - Tipo: B2B SaaS para clínicas
@@ -92,17 +104,18 @@ Define:
 
 ---
 
-## 🏗️ `structure.md` — El CÓMO (Arquitectura)
+## 🏗️ `structure.md` — El CÓMO
 
 Define:
-
-* organización del repo
-* convenciones
-* patrones
+- organización del repo
+- módulos y capas
+- naming
+- imports
+- patrones de arquitectura
 
 ### Ejemplo
 
-```md id="v7t1pa"
+```md
 # Estructura del Proyecto
 
 - /src/app → rutas
@@ -121,52 +134,27 @@ Define:
 
 ---
 
-# 🧠 Insight CLAVE (esto es lo más importante)
+# 🧠 Qué más conviene meter en steering
 
-Steering no describe.
+Además de los 3 base, suele valer la pena tener:
 
-👉 **Condiciona el comportamiento de Kiro**
+- `testing.md`
+- `api-design.md`
+- `security-policy.md`
+- `frontend-patterns.md`
+- `modelos-segun-uso.md`
 
-Ejemplo:
-
-* “usamos React” → info
-* “prohibido usar Redux” → decisión
-
-👉 Lo segundo es lo que realmente cambia el output.
-
----
-
-# 🔥 Qué hace Kiro con esto
-
-Kiro usa steering para:
-
-* generar código consistente
-* respetar arquitectura
-* evitar decisiones incorrectas
-* reducir alucinaciones
-
-👉 Es un filtro activo de decisiones
+👉 Regla simple:
+si algo se repite en varios tickets, probablemente ya no es contexto del ticket.
+Es steering.
 
 ---
 
-# 🧩 Steerings personalizados (avanzado)
+# ⚙️ Activación dinámica
 
-Podés crear más archivos:
+Podés controlar cuándo se usan con frontmatter YAML:
 
-* `testing.md`
-* `api-design.md`
-* `security-policy.md`
-* `frontend-patterns.md`
-
-👉 No hay límite
-
----
-
-## ⚙️ Activación dinámica (muy importante)
-
-Podés controlar cuándo se usan con YAML:
-
-```md id="p9k2sd"
+```md
 ---
 inclusion: fileMatch
 fileMatchPattern: "src/api/**"
@@ -178,67 +166,54 @@ fileMatchPattern: "src/api/**"
 - versionado en headers
 ```
 
-👉 Solo se activa cuando editás esa parte del código
-
-
+👉 Solo se activa cuando editás esa parte del código.
 
 ---
 
-# ⚠️ Reglas para buen steering
+# ⚠️ Reglas para un buen steering
 
 ## ✔️ Hacer
 
-* ser específico
-* definir restricciones claras
-* incluir “qué NO hacer”
-* documentar decisiones reales
-* reflejar cómo trabaja el equipo
-
----
+- ser específico
+- definir restricciones claras
+- incluir qué **NO** hacer
+- documentar decisiones reales
+- reflejar cómo trabaja el equipo
+- explicar tradeoffs cuando existan
 
 ## ❌ Evitar
 
-* “usar buenas prácticas”
-* “hacer código limpio”
-* definiciones vagas
-* teoría sin aplicación
+- “usar buenas prácticas”
+- “hacer código limpio”
+- teoría sin aplicación
+- definiciones vagas
 
 ---
 
 # 🚨 Anti-patrones
 
 ## ❌ Steering genérico
-
-👉 Kiro ignora o inventa
-
----
+👉 Kiro ignora o rellena huecos con su propio criterio
 
 ## ❌ Falta de restricciones
-
-👉 Kiro se pone creativo (y rompe cosas)
-
----
+👉 Kiro se pone creativo en lugares donde no debería
 
 ## ❌ No incluir deuda técnica
-
-👉 Kiro “optimiza” donde no debe
-
----
+👉 Kiro “mejora” zonas frágiles sin entender el riesgo
 
 ## ❌ No actualizarlo
-
-👉 decisiones desalineadas
+👉 el agente toma decisiones alineadas a un proyecto que ya no existe
 
 ---
 
 # 🧠 Relación con otras piezas
 
-| Concepto        | Rol               |
-| --------------- | ----------------- |
-| **Steering**    | reglas globales   |
-| **Specs**       | cambios puntuales |
-| **Skills**      | workflows         |
-| **.kiroignore** | qué NO ver        |
+| Concepto | Rol |
+|----------|-----|
+| Steering | reglas globales |
+| Specs | cambios puntuales |
+| Skills | workflows |
+| .kiroignore | qué no ver |
 
 👉 Steering = cómo pensar
 👉 Specs = qué hacer
@@ -247,34 +222,22 @@ fileMatchPattern: "src/api/**"
 
 # 💡 Tip PRO
 
-Si algo se repite en más de un ticket:
+Si querés que un agente trabaje bien en serio:
 
-👉 va a steering
+1. primero alineá steering
+2. después hacé specs
+3. recién ahí ejecutá tasks
 
----
-
-# 🚀 Auto-generación (clave en legacy)
-
-Kiro puede:
-
-* analizar tu repo
-* detectar stack
-* generar steering base automáticamente
-
-👉 después vos lo ajustás
-
-
+👉 mucho caos con IA no viene de “mala IA”, sino de **mal contexto estable**.
 
 ---
 
 # 🎯 Resumen final
 
-* Steering = cerebro del proyecto
-* define reglas, no features
-* guía todas las decisiones de Kiro
-* reduce errores y alucinaciones
+- Steering = cerebro estable del proyecto
+- define reglas, no features
+- reduce improvisación y alucinaciones
+- mejora consistencia entre tickets
 
 👉 buen steering = IA alineada
 👉 mal steering = caos elegante
-
----
