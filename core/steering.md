@@ -1,158 +1,45 @@
-# 🧩 Kiro Steering Cheat Sheet PRO
+# Steering
 
-## 🎯 Objetivo
+Archivos markdown en `.kiro/steering/` que definen reglas, contexto y límites del proyecto. El agente los lee en cada interacción.
 
-Definir el **contexto global, reglas y límites del proyecto** que Kiro debe respetar siempre.
+## Los 3 archivos base
 
-👉 Steering = **la constitución del sistema**
+### `tech.md` — Con qué se construye
 
----
+- Stack tecnológico
+- Herramientas de build, lint, formato
+- Variables de entorno
+- Comandos comunes
 
-# 🧠 ¿Qué es Steering?
+### `product.md` — Qué es el proyecto
 
-Los **Steering Files** son archivos `.md` que viven en:
+- Qué hace el sistema
+- Quién lo usa
+- Reglas de negocio intocables
+- Prioridades del dominio
 
-```bash
-.kiro/steering/
-```
+### `structure.md` — Cómo está organizado
 
-👉 Contienen:
-- reglas del proyecto
-- decisiones técnicas
-- contexto de negocio
-- convenciones
+- Estructura de carpetas
+- Convenciones de naming
+- Patrones de imports
+- Restricciones (qué NO hacer)
 
-👉 Su función principal:
-**evitar que Kiro invente, improvise o rompa la arquitectura del proyecto**
+## Otros steerings útiles
 
----
+- `workflow.md` — Cuándo planificar vs codear directo
+- `ignore.md` — Archivos que el agente no debe tocar
+- Steerings específicos por dominio (API design, testing, seguridad)
 
-## 🧠 Mental model
+## Modos de inclusión
 
-Si Kiro fuera un dev nuevo:
+| Modo | Comportamiento |
+|------|---------------|
+| `always` (default) | Se carga en cada interacción |
+| `manual` | Se activa con `#` en el chat |
+| `fileMatch` | Se activa al editar archivos que matchean un patrón |
 
-👉 Steering = onboarding + reglas + límites
-
-No es documentación linda.
-Es **input directo a cómo la IA toma decisiones**.
-
----
-
-# 🔥 Principio clave
-
-## 🧠 Pensar antes de codificar
-
-Un buen steering no solo dice *qué stack usamos*.
-También deja claro **cómo se decide**.
-
-👉 Antes de escribir código, Kiro debería poder responder:
-- qué problema está resolviendo
-- qué restricciones no puede violar
-- qué patrones del equipo debe seguir
-- qué zonas del sistema son sensibles
-
-Si eso no está claro en steering, el agente tiende a improvisar.
-
----
-
-# 🧩 Los 3 pilares base
-
-## ⚙️ `tech.md` — El QUÉ
-
-Define:
-- tecnologías
-- herramientas
-- restricciones técnicas
-- estándares de testing, linting y calidad
-
-### Ejemplo
-
-```md
-# Stack Tecnológico
-
-- Frontend: React 18 con Next.js 14 App Router (nunca Pages Router)
-- Estado global: Zustand (prohibido Redux o Context API)
-- Estilos: Tailwind CSS v3 (no CSS Modules)
-- Backend: FastAPI con Python 3.11
-- ORM: Prisma (todas las queries pasan por /src/services)
-- Testing: Jest + RTL (mínimo 80% cobertura)
-```
-
----
-
-## 🧭 `product.md` — El POR QUÉ
-
-Define:
-- qué hace el sistema
-- quién lo usa
-- qué reglas de negocio son intocables
-- prioridades del dominio
-
-### Ejemplo
-
-```md
-# Producto: Sistema de Turnos Médicos
-
-- Tipo: B2B SaaS para clínicas
-- Usuarios: médicos, secretarias, pacientes
-- Prioridad: privacidad (HIPAA)
-- Performance: < 2s en 3G
-
-- Regla crítica:
-  El sistema NO debe exponer datos de un paciente a otro usuario
-```
-
----
-
-## 🏗️ `structure.md` — El CÓMO
-
-Define:
-- organización del repo
-- módulos y capas
-- naming
-- imports
-- patrones de arquitectura
-
-### Ejemplo
-
-```md
-# Estructura del Proyecto
-
-- /src/app → rutas
-- /src/components → UI
-- /src/services → lógica de negocio
-- /src/lib → utilidades
-- /prisma → DB
-
-## Naming
-- camelCase → variables
-- PascalCase → componentes
-
-## Imports
-- usar alias @/ en vez de ../
-```
-
----
-
-# 🧠 Qué más conviene meter en steering
-
-Además de los 3 base, suele valer la pena tener:
-
-- `testing.md`
-- `api-design.md`
-- `security-policy.md`
-- `frontend-patterns.md`
-- `modelos-segun-uso.md`
-
-👉 Regla simple:
-si algo se repite en varios tickets, probablemente ya no es contexto del ticket.
-Es steering.
-
----
-
-# ⚙️ Activación dinámica
-
-Podés controlar cuándo se usan con frontmatter YAML:
+Ejemplo de fileMatch:
 
 ```md
 ---
@@ -161,83 +48,19 @@ fileMatchPattern: "src/api/**"
 ---
 
 # API Design
-
 - usar JSON:API
 - versionado en headers
 ```
 
-👉 Solo se activa cuando editás esa parte del código.
+## Reglas para un buen steering
 
----
+- Ser específico, no genérico ("usar styled-components v6" > "usar buenas prácticas")
+- Incluir qué NO hacer, no solo qué hacer
+- Documentar decisiones reales del equipo
+- Mantenerlo actualizado — un steering desactualizado es peor que no tener uno
 
-# ⚠️ Reglas para un buen steering
+## Anti-patrones
 
-## ✔️ Hacer
-
-- ser específico
-- definir restricciones claras
-- incluir qué **NO** hacer
-- documentar decisiones reales
-- reflejar cómo trabaja el equipo
-- explicar tradeoffs cuando existan
-
-## ❌ Evitar
-
-- “usar buenas prácticas”
-- “hacer código limpio”
-- teoría sin aplicación
-- definiciones vagas
-
----
-
-# 🚨 Anti-patrones
-
-## ❌ Steering genérico
-👉 Kiro ignora o rellena huecos con su propio criterio
-
-## ❌ Falta de restricciones
-👉 Kiro se pone creativo en lugares donde no debería
-
-## ❌ No incluir deuda técnica
-👉 Kiro “mejora” zonas frágiles sin entender el riesgo
-
-## ❌ No actualizarlo
-👉 el agente toma decisiones alineadas a un proyecto que ya no existe
-
----
-
-# 🧠 Relación con otras piezas
-
-| Concepto | Rol |
-|----------|-----|
-| Steering | reglas globales |
-| Specs | cambios puntuales |
-| Skills | workflows |
-| .kiroignore | qué no ver |
-
-👉 Steering = cómo pensar
-👉 Specs = qué hacer
-
----
-
-# 💡 Tip PRO
-
-Si querés que un agente trabaje bien en serio:
-
-1. primero alineá steering
-2. después hacé specs
-3. recién ahí ejecutá tasks
-
-👉 mucho caos con IA no viene de “mala IA”, sino de **mal contexto estable**.
-
----
-
-# 🎯 Resumen final
-
-- Steering = cerebro estable del proyecto
-- define reglas, no features
-- reduce improvisación y alucinaciones
-- mejora consistencia entre tickets
-
-👉 buen steering = IA alineada
-👉 mal steering = caos elegante
+- Steering genérico que no dice nada concreto
+- No incluir restricciones — el agente se pone creativo donde no debería
+- No actualizarlo — el agente toma decisiones sobre un proyecto que ya cambió

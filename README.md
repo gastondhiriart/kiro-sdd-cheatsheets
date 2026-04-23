@@ -1,54 +1,32 @@
-# 🧠 Kiro Docs
+# Kiro SDD Cheatsheets
 
-Repositorio de conocimiento y contexto para trabajar con Spec Driven Development en Kiro.
+Guías prácticas para trabajar con Spec Driven Development en Kiro.
 
----
+## Core
 
-## 🧩 Core
-Base del sistema. Define cómo piensa el proyecto a largo plazo.
+Base del sistema. Define cómo piensa el proyecto.
 
-- [Steering](core/steering.md)
-- [Specs](core/specs.md)
-- [Skills](core/skills.md)
-- [Kiro Ignore](core/kiroignore-guia.md)
+- [Steering](core/steering.md) — Reglas globales del proyecto
+- [Specs](core/specs.md) — Cómo estructurar cambios
+- [Skills](core/skills.md) — Workflows reutilizables
+- [Ignorar archivos](core/ignorar-archivos.md) — Qué no debe ver el agente
 
----
+## Conceptos
 
-## 🧠 Conceptos
-Ideas clave y modelos mentales para escribir mejores specs.
+Modelos mentales para escribir mejores specs.
 
-- [Notación EARS](conceptos/notacion-ears.md)
-- [Multihilo de Contexto](conceptos/multihilo-contexto.md)
+- [Notación EARS](conceptos/notacion-ears.md) — Cómo escribir requirements claros
+- [Manejo de contexto](conceptos/manejo-de-contexto.md) — Evitar contaminación de contexto
 
----
+## Herramientas
 
-## ⚙️ Herramientas
-Integraciones, automatizaciones y cosas prácticas.
+Integraciones y automatizaciones.
 
-- [Atajos y Proveedores](herramientas/atajos-y-proveedores.md)
-- [Agent Hooks](herramientas/agent-hooks.md)
-- [Integración MCP](herramientas/integracion-mcp.md)
+- [Providers y atajos](herramientas/providers-y-atajos.md) — Cómo inyectar contexto en Kiro
+- [Agent Hooks](herramientas/agent-hooks.md) — Control automático sobre acciones del agente
+- [Integración MCP](herramientas/integracion-mcp.md) — Conectar Kiro con servicios externos
 
----
+## Guías
 
-## 📘 Guías
-Buenas prácticas y recomendaciones según el caso.
-
-- [Modelos IA según uso](guias/modelos-ia-segun-uso.md)
-
----
-
-## 🚀 Cómo usar esto
-
-1. Empezá por **Core → Steering**
-2. Entendé los conceptos clave
-3. Apoyate en herramientas según necesidad
-4. Consultá guías para decisiones específicas
-
----
-
-## 🧭 Filosofía
-
-- Specs > código
-- Claridad > complejidad
-- Contexto compartido > conocimiento individual
+- [Modelos IA según uso](guias/modelos-ia-segun-uso.md) — Cuándo usar cada modelo
+- [Flujos de especificación](guias/flujos-de-especificacion.md) — Behavior-first vs design-first

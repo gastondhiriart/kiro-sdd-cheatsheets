@@ -1,235 +1,40 @@
-# 🧩 Kiro Modelos según uso Cheat Sheet PRO
+# Modelos IA según uso
 
-## 🎯 Objetivo
+Cómo elegir el modelo correcto según la tarea.
 
-Elegir el modelo correcto según:
+## Modo Auto (recomendado)
 
-- complejidad
-- costo
-- velocidad
-- tipo de tarea
+Kiro elige el modelo automáticamente según la complejidad de la tarea. Usar como default para el 90% del trabajo.
 
-👉 Modelo correcto = mejor resultado + menos costo
+No usar Auto cuando necesitás control fino del costo o estás en una tarea que requiere máxima precisión.
 
----
+## Guía por tipo de tarea
 
-# ⚙️ Modo Auto (MUY IMPORTANTE)
+| Tarea | Modelo sugerido |
+|-------|----------------|
+| Requirements complejos | Modelo potente (ej: Opus) |
+| Diseño arquitectónico | Modelo potente |
+| Debugging difícil | Modelo potente |
+| Implementación general | Modelo balanceado (ej: Sonnet) |
+| Refactors | Modelo balanceado |
+| Tasks repetitivas | Modelo económico |
+| Transformaciones simples | Modelo rápido |
+| Ejecución masiva de código | Modelo económico |
 
-## 🟢 Qué hace
+## Regla mental
 
-👉 Kiro elige el modelo automáticamente según la tarea
+- **Pensar** (specs, arquitectura, debugging complejo) → modelo potente
+- **Ejecutar** (código, refactors, tasks) → modelo balanceado
+- **Rápido** (cosas simples, transformaciones) → modelo económico
 
-- tareas simples → modelos baratos
-- tareas complejas → modelos más potentes
+## Anti-patrones
 
----
+- Usar el modelo más potente para todo → caro y lento sin beneficio proporcional
+- Usar el modelo más barato para cosas complejas → resultados pobres
+- No usar Auto nunca → sobre-optimización innecesaria
 
-## ✅ Cuándo usar Auto
+## Flujo práctico
 
-- flujo normal de trabajo
-- cuando no sabés qué elegir
-- tasks.md
-- uso diario
-
-👉 **Default recomendado**
-
----
-
-## ⚠️ Cuándo NO usar Auto
-
-- querés control fino del costo
-- estás debuggeando algo complejo
-- estás definiendo arquitectura
-
-👉 ahí conviene elegir manual
-
----
-
-## 🧠 Regla
-
-👉 Si dudás → Auto
-👉 Si sabés lo que hacés → manual
-
----
-
-# 🧩 Modelos disponibles (tu setup)
-
-## 🟣 Claude Opus 4.6 (2.2x 💸)
-
-👉 el más potente y también el más caro/lento
-
-### Usar para:
-- requirements complejos (EARS)
-- diseño arquitectónico
-- debugging difícil
-- decisiones críticas
-
-### ❌ NO usar para:
-- tasks.md
-- código repetitivo
-- cosas simples
-
-👉 **usar solo cuando realmente haga falta**
-
----
-
-## 🔵 Claude Sonnet 4.6 / 4.5 (1.3x ⚖️)
-
-👉 balance ideal
-
-### Usar para:
-- implementación
-- refactors
-- código general
-- uso diario
-
-👉 **mejor default manual**
-
----
-
-## 🟢 Claude Sonnet 4 (1.3x)
-
-👉 similar a 4.5, buen caballo de batalla para coding
-
----
-
-## ⚡ Claude Haiku 4.5 (0.4x 💨)
-
-👉 rápido y barato
-
-### Usar para:
-- tareas simples
-- transformaciones puntuales
-- respuestas rápidas
-
----
-
-## 🧠 DeepSeek v3.2 (0.25x 💸)
-
-👉 excelente costo/beneficio
-
-### Usar para:
-- generación de código
-- iteraciones rápidas
-- tasks repetitivas
-
----
-
-## 🚀 MiniMax M2.5 (0.25x)
-
-👉 rápido y barato
-
-### Usar para:
-- tareas livianas
-- contenido simple
-- soporte general
-
----
-
-## 🧪 GLM 5 (0.5x)
-
-👉 modelo intermedio
-
-### Usar para:
-- tareas mixtas
-- código + texto
-
----
-
-## 💻 Qwen3 Coder Next (0.05x 🧨)
-
-👉 ultra barato y especializado en código
-
-### Usar para:
-- escribir código
-- completar funciones
-- tasks grandes de código
-
-👉 **ideal para ejecución masiva**
-
----
-
-# 🔥 Guía práctica
-
-## 🧩 Spec Mode
-
-### requirements.md
-👉 Opus 4.6 (solo si es complejo)
-👉 sino Auto / Sonnet
-
-### design.md
-👉 Opus o Sonnet
-
-### tasks.md
-👉 Sonnet / Qwen / DeepSeek
-👉 ❌ nunca Opus por defecto
-
----
-
-## 🧪 Vibe Mode
-
-- dudas complejas → Opus
-- código → Sonnet / Qwen
-- cosas simples → Haiku
-
----
-
-# ⚠️ Regla importante sobre Opus
-
-👉 **NO usar Opus por defecto**
-
-Problemas:
-- caro
-- lento
-- no mejora tareas simples de forma proporcional
-
----
-
-## ✅ Usar Opus solo si:
-
-- estás definiendo lógica compleja
-- el problema es difícil
-- necesitás máxima precisión
-- una mala decisión cuesta mucho retrabajo
-
----
-
-## 🧠 Regla mental
-
-- pensar → Opus
-- ejecutar → Sonnet / Qwen
-- rápido → Haiku
-
----
-
-# 🚨 Anti-patrones
-
-## ❌ Usar Opus para todo
-👉 quemás credits al pedo
-
-## ❌ Usar Haiku para cosas complejas
-👉 resultados pobres
-
-## ❌ No usar Auto nunca
-👉 sobre-optimización innecesaria
-
----
-
-# 💡 Tip PRO
-
-Flujo ideal:
-
-1. Auto / Sonnet → 90% del tiempo
-2. Opus → casos complejos
-3. Qwen / DeepSeek → ejecución masiva
-
----
-
-# 🎯 Resumen final
-
-- Auto = mejor default
-- Sonnet = caballo de batalla
-- Opus = bisturí
-- Qwen / DeepSeek = ejecución
-
-👉 elegir bien el modelo = mitad del resultado
+1. **Auto** → 90% del tiempo
+2. **Modelo potente** → solo para decisiones críticas
+3. **Modelo económico** → ejecución masiva

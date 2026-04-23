@@ -1,246 +1,69 @@
-# 🧩 Kiro Agent Hooks Cheat Sheet PRO
+# Agent Hooks
 
-## 🎯 Objetivo
+Callbacks automáticos que se ejecutan cuando ocurren eventos en el IDE.
 
-Controlar y proteger lo que Kiro puede hacer en tu máquina.
+## Estructura
 
-👉 Hooks = **capa de seguridad activa en tiempo real**
-
----
-
-# 🧠 ¿Qué son los Hooks?
-
-Los **Agent Hooks** son callbacks automáticos que:
-
-- interceptan acciones del agente
-- ejecutan validaciones
-- pueden bloquear ejecuciones
-
-👉 actúan como guardias de seguridad invisibles
-
----
-
-## 🧠 Mental model
-
-Hook = firewall del agente
-
-👉 no evita que piense
-👉 evita que haga cosas peligrosas
-
----
-
-# ⚙️ Dónde viven
-
-```bash
-.kiro/hooks.json
-```
-
----
-
-# 🧩 Estructura básica
+Los hooks viven en `.kiro/hooks/*.kiro.hook` como archivos JSON.
 
 ```json
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "action": {
-          "type": "command",
-          "command": "scripts/security_check.sh",
-          "timeout": 5
-        }
-      }
-    ]
+  "name": "Lint on Save",
+  "version": "1.0.0",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["*.ts", "*.tsx"]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "npm run lint"
   }
 }
 ```
 
----
+## Eventos disponibles
 
-# 🧩 Conceptos clave
+| Evento | Cuándo se dispara |
+|--------|------------------|
+| `fileEdited` | Al guardar un archivo |
+| `fileCreated` | Al crear un archivo nuevo |
+| `fileDeleted` | Al borrar un archivo |
+| `postToolUse` | Después de que el agente usa una herramienta |
+| `preToolUse` | Antes de que el agente use una herramienta |
+| `preTaskExecution` | Antes de ejecutar una task de spec |
+| `postTaskExecution` | Después de ejecutar una task de spec |
+| `promptSubmit` | Al enviar un mensaje en el chat |
+| `agentStop` | Cuando el agente termina de ejecutar |
+| `userTriggered` | Manual, con botón |
 
-## 🔹 Trigger
+## Tipos de acción
 
-Cuándo se ejecuta.
+| Tipo | Qué hace | Costo |
+|------|----------|-------|
+| `runCommand` | Ejecuta un comando en terminal | Gratis (local) |
+| `askAgent` | Envía un prompt al agente | Consume créditos |
 
-Ejemplos:
-- `PreToolUse`
-- `FileSave`
+## Cuándo usar cada tipo
 
----
+**runCommand (gratis):**
+- Lint, type-check, tests
+- Validaciones objetivas
+- Cualquier cosa que se resuelve con un comando
 
-## 🔹 Matcher
+**askAgent (caro):**
+- Análisis que requiere razonamiento
+- Sugerencias de mejora
+- Revisiones de código
 
-Qué intercepta.
+## Regla práctica
 
-Ejemplo:
+- Si corre muchas veces → `runCommand` (no usar IA)
+- Si usa IA → que sea manual o en momentos puntuales
+- Auto-save + hook con `askAgent` = créditos volando
 
-```json
-"matcher": "Bash"
-```
+## Anti-patrones
 
----
-
-## 🔹 Action
-
-Qué hace el hook:
-- ejecutar script
-- validar
-- bloquear
-
----
-
-# 🚨 Flujo real
-
-1. Kiro intenta ejecutar algo
-2. Hook intercepta
-3. Se corre el script
-4. Resultado:
-
-- `0` → permitido
-- `!= 0` → bloqueado
-
-👉 si falla, Kiro NO ejecuta la acción
-
----
-
-# 🧪 Ejemplos prácticos
-
-## ☠️ Bloquear comandos peligrosos
-
-```bash
-#!/bin/bash
-
-if [[ "$KIRO_COMMAND" == *"rm -rf"* ]]; then
-  echo "Bloqueado"
-  exit 2
-fi
-
-exit 0
-```
-
----
-
-## 🧪 Validar tests antes de ejecutar
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "action": {
-          "type": "command",
-          "command": "npm run test"
-        }
-      }
-    ]
-  }
-}
-```
-
----
-
-## 🧹 Lint automático al guardar
-
-```json
-{
-  "hooks": {
-    "FileSave": [
-      {
-        "matcher": "*.ts",
-        "action": {
-          "type": "command",
-          "command": "npm run lint"
-        }
-      }
-    ]
-  }
-}
-```
-
----
-
-# 🧠 Insight CLAVE
-
-Hooks ≠ Skills
-
-| Concepto | Rol |
-|----------|-----|
-| Skills | comportamiento |
-| Hooks | control |
-
-👉 Skills = “hacé esto”
-👉 Hooks = “esto no lo hacés ni loco”
-
----
-
-# 🔥 Cuándo usar Hooks
-
-Usalos cuando haya riesgo real:
-
-- comandos destructivos
-- scripts bash delicados
-- deploys
-- acceso a DB
-- cambios sensibles
-
----
-
-# ⚠️ Cuándo NO usarlos
-
-No usar para:
-- lógica de negocio
-- features
-- validaciones demasiado livianas
-
-👉 eso va en specs o skills
-
----
-
-# 🚨 Anti-patrones
-
-## ❌ No usar hooks
-👉 Kiro puede ejecutar cosas peligrosas sin fricción
-
-## ❌ Hooks demasiado restrictivos
-👉 bloqueás productividad por paranoia
-
-## ❌ Scripts lentos
-👉 frena todo el flujo
-
----
-
-# 💡 Tip PRO
-
-Pensalos como:
-
-👉 CI/CD local en tiempo real
-
-Antes de que algo pase, ya lo frenaste.
-
----
-
-# 🧠 Relación con el sistema
-
-| Pieza | Rol |
-|------|-----|
-| Steering | reglas |
-| Specs | ejecución |
-| Skills | comportamiento |
-| Hooks | control |
-
-👉 Hooks = guardia final
-
----
-
-# 🎯 Resumen final
-
-- Hook = interceptor automático
-- ejecuta validaciones
-- puede bloquear acciones
-- protege tu entorno
-
-👉 sin hooks → potencia sin control
-👉 con hooks → potencia segura
+- No usar hooks → el agente puede ejecutar cosas sin validación
+- Hooks demasiado restrictivos → bloquean productividad
+- Scripts lentos en hooks → frenan todo el flujo
+- `askAgent` en eventos frecuentes → gasto innecesario
